@@ -166,6 +166,7 @@ class TournamentRound:
             self._matches.append(match)
 
             winner_id = match.winner
+            assert winner_id is not None
             loser_id = b.agent_id if winner_id == a.agent_id else a.agent_id
             self._results[winner_id].wins += 1
             self._results[loser_id].losses += 1

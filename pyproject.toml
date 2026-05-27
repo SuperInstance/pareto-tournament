@@ -21,6 +21,17 @@ classifiers = [
     "Topic :: Scientific/Engineering :: Artificial Intelligence",
 ]
 
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "pytest-cov>=4.0",
+    "ruff>=0.4.0",
+    "mypy>=1.0",
+    "bandit[toml]>=1.7",
+    "pip-audit>=2.0",
+    "pre-commit>=3.0",
+]
+
 [project.urls]
 Homepage = "https://github.com/SuperInstance/pareto-tournament"
 Repository = "https://github.com/SuperInstance/pareto-tournament"
@@ -31,3 +42,14 @@ packages = ["pareto_tournament"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["."]
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W", "UP"]
+
+[tool.mypy]
+python_version = "3.10"
+ignore_missing_imports = true
+warn_unreachable = true

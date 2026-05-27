@@ -10,7 +10,6 @@ import pytest
 from pareto_tournament.core import (
     AgentScore,
     TournamentMatch,
-    TournamentResult,
     TournamentRound,
     breed,
     dominated_by,

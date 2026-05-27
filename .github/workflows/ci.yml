@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [main]
+    branches: [main, master]
   pull_request:
-    branches: [main]
+    branches: [main, master]
 
 jobs:
   test:
@@ -21,8 +21,20 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: Install
-        run: pip install -e . pytest
+      - uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('pyproject.toml') }}
+          restore-keys: ${{ runner.os }}-pip-
+
+      - name: Install dependencies
+        run: pip install -e ".[dev]"
 
       - name: Test
-        run: pytest -v
+        run: python -m pytest tests/ -q --tb=short --cov=pareto_tournament --cov-report=term-missing --cov-fail-under=75
+
+      - name: Type check
+        run: python -m mypy pareto_tournament/ --ignore-missing-imports --warn-unreachable || true
+
+      - name: Lint
+        run: python -m ruff check pareto_tournament/ tests/ || true
